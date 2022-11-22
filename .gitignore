@@ -1,0 +1,6 @@
+.vs
+.vscode
+.idea
+*.bak
+**/bin/
+**/obj/
