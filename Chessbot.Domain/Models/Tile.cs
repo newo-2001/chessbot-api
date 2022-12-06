@@ -2,5 +2,5 @@
 public record Tile(Piece Piece, PieceColor Color)
 {
     public override string ToString() =>
-        $"{Piece.ToString()[0..2]}-{Color.ToString()[0]}";
+        Color == PieceColor.Black ? Piece.FenName() : Piece.FenName().ToUpper();
 }

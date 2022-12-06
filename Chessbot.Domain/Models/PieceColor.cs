@@ -7,5 +7,5 @@ public enum PieceColor
 public static class PieceColorExtensions
 {
     public static PieceColor Complement(this PieceColor color) =>
-        color == PieceColor.White? PieceColor.Black : color;
+        color == PieceColor.White ? PieceColor.Black : PieceColor.White;
 }
