@@ -1,24 +1,20 @@
-﻿using Chessbot.Domain.Interfaces;
+﻿using Chessbot.Api.State;
+using Chessbot.Domain.Interfaces;
 using Chessbot.Domain.Models;
 
 public class Game
 {
     private readonly IChessPlayer _white;
     private readonly IChessPlayer _black;
-    private readonly GameState _gameState = new();
+    private readonly IStateProvider _stateProvider;
 
-    public IGameState GameState => _gameState;
+    public GameState State => _stateProvider.State;
 
-    public Game(IChessPlayer white, IChessPlayer black)
+    public Game(IStateProvider stateProvider, IChessPlayer white, IChessPlayer black)
     {
+        _stateProvider = stateProvider;
         _white = white;
         _black = black;
-    }
-
-    public Game(IChessPlayer white, IChessPlayer black, GameState gameState)
-        : this(white, black)
-    {
-        _gameState = gameState;
     }
 
     public void Play()

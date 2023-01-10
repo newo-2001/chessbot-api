@@ -3,7 +3,7 @@ using Chessbot.Domain.Models;
 using Stockfish.NET;
 
 namespace Chessbot.Api.Engines;
-public class StockFishEngine : IChessPlayer
+public class StockFishEngine : IChessEngine
 {
     private readonly IStockfish _stockfish;
 
@@ -12,15 +12,10 @@ public class StockFishEngine : IChessPlayer
         _stockfish = new Stockfish.NET.Stockfish(stockfishPath);
     }
 
-    public Move Move(IGameState state)
+    public Move Move(Move previousMove)
     {
-        var fen = state.FenString;
-        Console.WriteLine(fen);
-        _stockfish.SetFenPosition(fen);
+        _stockfish.SetPosition(previousMove.ToString());
 
-        // TODO: Update gamestate to reflect stockfish's move
-        // e.g. ability to castle, this could be extracted by parsing
-        // the fen-string returned by stockfish
         var move = _stockfish.GetBestMove();
         Console.WriteLine("stockfish moved: " + move);
         return Domain.Models.Move.FromUciString(move);

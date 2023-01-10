@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chessbot.Domain", "Chessbot.Domain\Chessbot.Domain.csproj", "{00BDE727-C269-4222-8891-6EADE4145D0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessbot.Domain", "Chessbot.Domain\Chessbot.Domain.csproj", "{00BDE727-C269-4222-8891-6EADE4145D0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chessbot.Api", "Chessbot.Api\Chessbot.Api.csproj", "{EB2E7C0D-1EA1-4E92-91DF-4336F422DCE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chessbot.Api", "Chessbot.Api\Chessbot.Api.csproj", "{EB2E7C0D-1EA1-4E92-91DF-4336F422DCE5}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Chessbot.Parser", "Chessbot.Parser\Chessbot.Parser.fsproj", "{AC44F870-D0C7-4C69-B412-26714F0F700E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EB2E7C0D-1EA1-4E92-91DF-4336F422DCE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB2E7C0D-1EA1-4E92-91DF-4336F422DCE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB2E7C0D-1EA1-4E92-91DF-4336F422DCE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC44F870-D0C7-4C69-B412-26714F0F700E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC44F870-D0C7-4C69-B412-26714F0F700E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC44F870-D0C7-4C69-B412-26714F0F700E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC44F870-D0C7-4C69-B412-26714F0F700E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
