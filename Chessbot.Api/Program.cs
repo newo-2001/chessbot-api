@@ -17,8 +17,8 @@ var config = new ConfigurationBuilder()
     .Build();
 
 var serviceProvider = new ServiceCollection()
-    .Configure<StockFishConfiguration>(options => config.GetSection("Stockfish"))
-    .Configure<SerialConfiguration>(options => config.GetSection("Serial"))
+    .Configure<StockFishConfiguration>(config.GetSection("Stockfish"))
+    .Configure<SerialConfiguration>(config.GetSection("Serial"))
     .AddSingleton<IStockfish, Stockfish.NET.Stockfish>()
     .AddSingleton(x =>
     {

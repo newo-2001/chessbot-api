@@ -2,5 +2,5 @@
 
 public class StockFishConfiguration
 {
-    public required string StockFishPath { get; set; }
+    public required string Path { get; set; }
 }

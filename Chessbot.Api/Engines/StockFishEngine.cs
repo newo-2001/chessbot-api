@@ -12,8 +12,7 @@ public class StockFishEngine : IChessEngine
 
     public StockFishEngine(IOptions<StockFishConfiguration> config)
     {
-        Console.WriteLine(config.Value.StockFishPath);
-        _stockfish = new Stockfish.NET.Stockfish(config.Value.StockFishPath);
+        _stockfish = new Stockfish.NET.Stockfish(config.Value.Path);
     }
 
     public Task<Move> Move(IReadonlyStateProvider stateProvider)
