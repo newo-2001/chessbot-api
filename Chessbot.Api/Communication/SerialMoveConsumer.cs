@@ -17,7 +17,5 @@ public class SerialMoveConsumer : IMoveConsumer
     {
         var payload = move.UciString();
         _serial.WriteLine(payload);
-
-        while (_serial.ReadLine() != "done") { }
     }
 }
