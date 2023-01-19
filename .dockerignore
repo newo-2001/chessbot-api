@@ -1,0 +1,9 @@
+.git
+.vs
+**/bin
+**/obj
+.env
+.env.example
+.gitignore
+Dockerfile
+docker-compose.yaml

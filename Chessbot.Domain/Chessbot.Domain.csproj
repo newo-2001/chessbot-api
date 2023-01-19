@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="Chessbot.Parser">
+      <HintPath>..\Chessbot.Parser\obj\Debug\net7.0\ref\Chessbot.Parser.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
