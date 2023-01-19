@@ -6,3 +6,5 @@
 **/obj/
 .env
 **/appsettings.Development.json
+**/appsettings.json
+Stockfish
