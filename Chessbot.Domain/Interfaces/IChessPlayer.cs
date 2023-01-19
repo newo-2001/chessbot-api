@@ -9,6 +9,6 @@ namespace Chessbot.Domain.Interfaces
 {
     public interface IChessPlayer
     {
-        public Move Move(Move previousMove);
+        public Task<Move> Move(IReadonlyStateProvider stateProvider);
     }
 }

@@ -41,7 +41,7 @@ module Parsers =
         |>> Array.concat
 
     let board =
-        parray 8 row
+        parray 8 row |>> Board
 
     let castle =
         let side =
@@ -65,22 +65,34 @@ module Parsers =
     let state =
         pipe4 board color castle position
             (fun board color castle position -> new GameState(
-                Tiles=board,
+                Board=board,
                 CurrentColor=color,
                 CastleState=castle,
                 EnPassentSquare=position))
 
     let move =
         tuple2 position position |>> Move
+    
+    let action =
+        (pstring "drop" >>% PieceInteraction.Drop) <|>
+        (pstring "lift" >>% PieceInteraction.Lift)
+
+    let interaction =
+        pipe2 (action .>> spaces) position (fun action pos ->
+            new PieceInteractionEvent(Location = pos, Action = action))
 
     let unwrap = function
         | Success(result, _, _) -> result
         | Failure(err, _, _) -> raise (Exception(err))
-
+    
     let ParseGameState fen =
         run state fen
         |> unwrap
 
     let ParseMove uci =
         run move uci
+        |> unwrap
+
+    let ParseInteraction uci =
+        run interaction uci
         |> unwrap

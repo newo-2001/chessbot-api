@@ -1,7 +1,6 @@
-﻿namespace Chessbot.Api.Configuration
+﻿namespace Chessbot.Api.Configuration;
+
+public class StockFishConfiguration
 {
-    public class StockFishConfiguration
-    {
-        public string? StockFishPath { get; set; }
-    }
+    public required string StockFishPath { get; set; }
 }

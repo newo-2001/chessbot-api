@@ -1,10 +1,15 @@
-﻿using Chessbot.Api.Configuration;
+﻿using Chessbot.Api;
+using Chessbot.Api.Communication;
+using Chessbot.Api.Configuration;
+using Chessbot.Api.Detection;
 using Chessbot.Api.Engines;
-using Chessbot.Api.Verification;
+using Chessbot.Api.Players;
+using Chessbot.Api.State;
 using Chessbot.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Stockfish.NET;
+using System.IO.Ports;
 
 var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
@@ -13,18 +18,34 @@ var config = new ConfigurationBuilder()
 
 var serviceProvider = new ServiceCollection()
     .Configure<StockFishConfiguration>(options => config.GetSection("Stockfish"))
+    .Configure<SerialConfiguration>(options => config.GetSection("Serial"))
     .AddSingleton<IStockfish, Stockfish.NET.Stockfish>()
-    .AddSingleton<IStateProvider, StockFishStateProvider>()
-    .AddScoped<IChessEngine, StockFishEngine>()
-    .AddScoped<IChessPlayer, CliPlayer>()
+    .AddSingleton(x =>
+    {
+        var serialConfig = config.GetRequiredSection("Serial").Get<SerialConfiguration>();
+        if (serialConfig is null)
+            throw new ArgumentException("Serial configuration is not present!");
+
+        var serial = new SerialPort(serialConfig.PortName, serialConfig.BaudRate);
+        serial.Open();
+        return serial;
+    })
+    .AddScoped<IInteractionProvider, SerialInteractionProvider>()
+    .AddScoped<IMoveConsumer, SerialMoveConsumer>()
     .AddScoped<IStateProvider, StockFishStateProvider>()
+    .AddScoped<IChessEngine, StockFishEngine>()
+    .AddScoped<IMoveDetector, MoveDetector>()
+    .AddScoped<IGameRunner, GameRunner>()
+    .AddScoped<MoveDetectionPlayer>()
+    .AddScoped<RobotPlayer>()
+    .AddLogging()
     .BuildServiceProvider();
 
-var stockfishPath = config.GetSection("STOCKFISH_PATH").Value;
-stockfishPath ??= config.GetRequiredSection("Stockfish").Value;
+var computer = serviceProvider.GetRequiredService<RobotPlayer>();
+var player = serviceProvider.GetRequiredService<MoveDetectionPlayer>();
+var runner = serviceProvider.GetRequiredService<IGameRunner>();
 
-var engine = serviceProvider.GetRequiredService<IChessEngine>();
-var player = serviceProvider.GetRequiredService<IChessPlayer>();
+await runner.Play(player, computer);
 
-var game = new Game(engine, player);
-game.Play();
+var serial = serviceProvider.GetRequiredService<SerialPort>();
+serial.Close();

@@ -1,5 +1,6 @@
 ﻿using Chessbot.Domain.Interfaces;
 using Chessbot.Domain.Models;
+using Chessbot.Parsing;
 using Stockfish.NET;
 
 namespace Chessbot.Api.Engines;
@@ -12,12 +13,14 @@ public class StockFishEngine : IChessEngine
         _stockfish = new Stockfish.NET.Stockfish(stockfishPath);
     }
 
-    public Move Move(Move previousMove)
+    public Task<Move> Move(IReadonlyStateProvider stateProvider)
     {
-        _stockfish.SetPosition(previousMove.ToString());
+        var uci = _stockfish.GetBestMove();
 
-        var move = _stockfish.GetBestMove();
-        Console.WriteLine("stockfish moved: " + move);
-        return Domain.Models.Move.FromUciString(move);
+        Console.WriteLine($"stockfish moved: {uci}");
+
+        Move move = Parsers.ParseMove(uci);
+
+        return Task.FromResult(move);
     }
 }
