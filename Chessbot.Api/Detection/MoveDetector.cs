@@ -19,6 +19,7 @@ public class MoveDetector : IMoveDetector
         Move? move = null;
         while (FindMove() is null)
         {
+			Console.WriteLine("Awaiting interaction...");
             var interaction = await _interactionProvider.GetPieceInteractionEventAsync();
             _timeline.Append(interaction);
         }

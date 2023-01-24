@@ -14,10 +14,12 @@ public class SerialInteractionProvider : IInteractionProvider
         _serial = serial;
     }
 
-    public async Task<PieceInteractionEvent> GetPieceInteractionEventAsync()
+    public Task<PieceInteractionEvent> GetPieceInteractionEventAsync()
     {
-        var line = await Task.Run(_serial.ReadLine);
-        return Parsers.ParseInteraction(line);
+		Console.WriteLine("Test");
+		var line = _serial.ReadLine();
+		Console.WriteLine($"Interaction Received: {line}");
+        return Task.FromResult(Parsers.ParseInteraction(line));
     }
 
     public void DiscardBuffer()
