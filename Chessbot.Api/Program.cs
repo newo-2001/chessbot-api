@@ -53,7 +53,7 @@ var computer = serviceProvider.GetRequiredService<RobotPlayer>();
 var player = serviceProvider.GetRequiredService<MoveDetectionPlayer>();
 var runner = serviceProvider.GetRequiredService<IGameRunner>();
 
-await runner.Play(computer, player);
+await runner.Play(player, computer);
 
 var serial = serviceProvider.GetRequiredService<SerialPort>();
 serial.Close();

@@ -17,6 +17,7 @@ public class SerialInteractionProvider : IInteractionProvider
     public async Task<PieceInteractionEvent> GetPieceInteractionEventAsync()
     {
         var line = await Task.Run(_serial.ReadLine);
+        Console.WriteLine($"Received interaction: {line}");
         return Parsers.ParseInteraction(line);
     }
 
