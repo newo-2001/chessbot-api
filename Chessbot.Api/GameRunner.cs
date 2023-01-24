@@ -20,6 +20,7 @@ public class GameRunner : IGameRunner
         while (!State.IsFinished)
         {
             var player = State.CurrentColor == PieceColor.White ? white : black;
+            Console.WriteLine($"{player} to move.");
 
             Move move;
             while (true)

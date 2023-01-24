@@ -16,10 +16,18 @@ var config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
+var stockFishConfig = config.GetRequiredSection("Stockfish").Get<StockFishConfiguration>();
+if (stockFishConfig is null)
+{
+    throw new ArgumentException("Stockfish configuration is not present!");
+}
+
+var stockfish = new Stockfish.NET.Stockfish(stockFishConfig.Path);
+
 var serviceProvider = new ServiceCollection()
     .Configure<StockFishConfiguration>(config.GetSection("Stockfish"))
     .Configure<SerialConfiguration>(config.GetSection("Serial"))
-    .AddSingleton<IStockfish, Stockfish.NET.Stockfish>()
+    .AddSingleton<IStockfish>(stockfish)
     .AddSingleton(x =>
     {
         var serialConfig = config.GetRequiredSection("Serial").Get<SerialConfiguration>();
@@ -45,7 +53,7 @@ var computer = serviceProvider.GetRequiredService<RobotPlayer>();
 var player = serviceProvider.GetRequiredService<MoveDetectionPlayer>();
 var runner = serviceProvider.GetRequiredService<IGameRunner>();
 
-await runner.Play(player, computer);
+await runner.Play(computer, player);
 
 var serial = serviceProvider.GetRequiredService<SerialPort>();
 serial.Close();

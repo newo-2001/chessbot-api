@@ -62,8 +62,11 @@ module Parsers =
         let rank = digit |>> fun c -> int (c - '1')
         tuple2 file rank |>> BoardPosition
 
+    let optionalPosition =
+        position <|> (pchar '-' >>% null)
+
     let state =
-        pipe4 board color castle position
+        pipe4 board (color .>> spaces1) (castle .>> spaces1) (optionalPosition .>> spaces1)
             (fun board color castle position -> new GameState(
                 Board=board,
                 CurrentColor=color,

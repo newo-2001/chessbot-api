@@ -22,6 +22,7 @@ public class StockFishEngine : IChessEngine
         Console.WriteLine($"stockfish moved: {uci}");
 
         Move move = Parsers.ParseMove(uci);
+        Console.WriteLine($"Stockfished moved: {move}");
 
         return Task.FromResult(move);
     }

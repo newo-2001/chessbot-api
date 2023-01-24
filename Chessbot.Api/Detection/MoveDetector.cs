@@ -15,12 +15,14 @@ public class MoveDetector : IMoveDetector
 
     public async Task<Move> Detect()
     {
+        Console.WriteLine("Listening for interactions...");
         Move? move = null;
         while (FindMove() is null)
         {
             var interaction = await _interactionProvider.GetPieceInteractionEventAsync();
             _timeline.Append(interaction);
         }
+        Console.WriteLine($"Move detected: {move}");
 
         return move!;
     }
