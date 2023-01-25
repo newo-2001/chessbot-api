@@ -1,5 +1,6 @@
 ﻿using Chessbot.Domain.Interfaces;
 using Chessbot.Domain.Models;
+using Chessbot.Domain.Exceptions;
 using Chessbot.Parsing;
 using System.IO.Ports;
 
@@ -18,6 +19,11 @@ public class SerialInteractionProvider : IInteractionProvider
     {
         var line = await Task.Run(_serial.ReadLine);
         Console.WriteLine($"Received interaction: {line}");
+        if (line.StartsWith("reset"))
+        {
+            throw new MoveInterruptException();
+        }
+
         return Parsers.ParseInteraction(line);
     }
 

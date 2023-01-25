@@ -1,4 +1,5 @@
-﻿using Chessbot.Domain.Interfaces;
+﻿using Chessbot.Domain.Exceptions;
+using Chessbot.Domain.Interfaces;
 using Chessbot.Domain.Models;
 
 namespace Chessbot.Api.Detection;
@@ -17,10 +18,19 @@ public class MoveDetector : IMoveDetector
     {
         Console.WriteLine("Listening for interactions...");
         Move? move = null;
-        while (FindMove() is null)
+        while (move is null)
         {
-            var interaction = await _interactionProvider.GetPieceInteractionEventAsync();
-            _timeline.Append(interaction);
+            try
+            {
+                var interaction = await _interactionProvider.GetPieceInteractionEventAsync();
+                _timeline.Append(interaction);
+                move = FindMove();
+            }
+            catch (MoveInterruptException)
+            {
+                Console.WriteLine("Move timeline has been reset.");
+                _timeline.Reset();
+            }
         }
         Console.WriteLine($"Move detected: {move}");
 

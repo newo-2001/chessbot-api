@@ -25,5 +25,7 @@ namespace Chessbot.Domain.Models
 
             _interactions.AddFirst(data);
         }
+
+        public void Reset() => _interactions.Clear();
     }
 }

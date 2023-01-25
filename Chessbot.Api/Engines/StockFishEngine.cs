@@ -10,9 +10,9 @@ public class StockFishEngine : IChessEngine
 {
     private readonly IStockfish _stockfish;
 
-    public StockFishEngine(IOptions<StockFishConfiguration> config)
+    public StockFishEngine(IStockfish stockfish)
     {
-        _stockfish = new Stockfish.NET.Stockfish(config.Value.Path);
+        _stockfish = stockfish;
     }
 
     public Task<Move> Move(IReadonlyStateProvider stateProvider)
